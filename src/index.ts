@@ -1,1 +1,1 @@
-export { Rune } from './rune';
+export { Rune, generate, upgrade } from './rune';

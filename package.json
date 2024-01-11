@@ -1,7 +1,7 @@
 {
   "name": "@plokkke/sw-rune",
   "private": false,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Library defining all utils for summoners war rune handling",
   "author": "Antoine Caron <antoine@crn-tech.fr>",
   "license": "ISC",
@@ -10,8 +10,8 @@
     "War",
     "Rune"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "files": [
     "/dist"
   ],
@@ -24,7 +24,7 @@
     "test:cov": "jest --coverage"
   },
   "dependencies": {
-    "@plokkke/toolbox": "^0.3.2",
+    "@plokkke/toolbox": "^0.3.4",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
