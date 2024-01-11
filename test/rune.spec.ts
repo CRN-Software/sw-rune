@@ -133,7 +133,7 @@ describe('Rune', () => {
     });
 
     it('should upgrade a rune', () => {
-      const rune: Rune = generate({ quality: 'RARE'});
+      const rune: Rune = generate({ quality: 'RARE' });
 
       upgrade(rune);
       expect(rune.subStats.length).toBe(2);
@@ -147,5 +147,5 @@ describe('Rune', () => {
       upgrade(rune);
       expect(rune.subStats.length).toBe(4);
     });
-  })
+  });
 });

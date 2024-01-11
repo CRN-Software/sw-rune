@@ -104,7 +104,12 @@ export function generate(options?: RuneGenerationParams): Rune {
 }
 
 function excludeSubStatType(rune: Rune): RuneStatType[] {
-  return [...EXCLUDED_SUBSTATS_BY_SLOT[rune.slot], rune.mainStat.type, ...(rune.innateStat ? [rune.innateStat.type] : [])];
+  return [
+    ...EXCLUDED_SUBSTATS_BY_SLOT[rune.slot],
+    rune.mainStat.type,
+    ...(rune.innateStat ? [rune.innateStat.type] : []),
+    ...rune.subStats.map((stat) => stat.type)
+  ];
 }
 
 function mainStateValue(grade: RuneGrade, type: RuneStatType, level: number): number {
