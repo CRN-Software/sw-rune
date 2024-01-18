@@ -1,4 +1,4 @@
-import { generate, Rune, upgrade } from '@/index';
+import { generate, Rune, runeFromSW, SWRune, upgrade } from '@/index';
 
 describe('Rune', () => {
   describe('generate', () => {
@@ -146,6 +146,84 @@ describe('Rune', () => {
 
       upgrade(rune);
       expect(rune.subStats.length).toBe(4);
+    });
+  });
+
+  describe('runeFromSW', () => {
+    it('should convert a rune from SW', () => {
+      const swRune: SWRune = {
+        class: 6,
+        extra: 4,
+        occupied_id: 0,
+        prefix_eff: [12, 6],
+        pri_eff: [4, 11],
+        sec_eff: [
+          [3, 13],
+          [1, 284],
+          [2, 6],
+        ],
+        set_id: 6,
+        slot_no: 2,
+        upgrade_curr: 0,
+      };
+
+      const expected: Rune = {
+        isAncient: false,
+        isEquipped: false,
+        slot: 2,
+        set: 'FOCUS',
+        grade: 6,
+        quality: 'HERO',
+        level: 0,
+        mainStat: { effect: 'ATTACK_PERCENTAGE', value: 11 },
+        innateStat: { effect: 'ACCURACY', value: 6 },
+        subStats: [
+          { effect: 'ATTACK_FLAT', value: 13 },
+          { effect: 'HEALTH_FLAT', value: 284 },
+          { effect: 'HEALTH_PERCENTAGE', value: 6 },
+        ],
+      };
+
+      const actual = runeFromSW(swRune);
+      expect(actual).toStrictEqual(expected);
+    });
+
+    it('should convert a rune from SW', () => {
+      const swRune: SWRune = {
+        class: 5,
+        extra: 14,
+        occupied_id: 18,
+        prefix_eff: [0, 0],
+        pri_eff: [8, 11],
+        sec_eff: [
+          [3, 13],
+          [1, 284],
+          [2, 6],
+        ],
+        set_id: 25,
+        slot_no: 2,
+        upgrade_curr: 8,
+      };
+
+      const expected: Rune = {
+        isAncient: true,
+        isEquipped: true,
+        slot: 2,
+        set: 'INTANGIBLE',
+        grade: 5,
+        quality: 'HERO',
+        level: 8,
+        mainStat: { effect: 'SPEED', value: 11 },
+        innateStat: null,
+        subStats: [
+          { effect: 'ATTACK_FLAT', value: 13 },
+          { effect: 'HEALTH_FLAT', value: 284 },
+          { effect: 'HEALTH_PERCENTAGE', value: 6 },
+        ],
+      };
+
+      const actual = runeFromSW(swRune);
+      expect(actual).toStrictEqual(expected);
     });
   });
 });

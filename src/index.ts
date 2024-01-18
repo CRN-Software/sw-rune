@@ -1,4 +1,4 @@
-import { RUNE_QUALITIES, RUNE_SETS, RUNE_EFFECTS } from '@/constants';
+import { RUNE_QUALITIES, RUNE_SETS, RUNE_EFFECTS, RUNE_SET_BY_ID, RUNE_EFFECT_BY_ID } from '@/constants';
 import { randomGrade, randomHasInnateStat, randomIsAncient, randomMainEffect, randomEffectValue, randomQuality, randomSet, randomSlot, randomSubEffect } from '@/random';
 import { EXCLUDED_EFFECTS_BY_SLOT, MAIN_EFFECT_BY_SLOT, VALUE_BY_GRADE_AND_STAT_TYPE } from '@/constraints';
 import _ from 'lodash';
@@ -12,6 +12,7 @@ export type RuneSetId = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 10 | 11 | 13 | 14 | 15 |
 export type RuneSet = (typeof RUNE_SETS)[number];
 export type RuneEffectId = 1 | 2 | 3 | 4 | 5 | 6 | 8 | 9 | 10 | 11 | 12;
 export type RuneEffect = (typeof RUNE_EFFECTS)[number];
+export type RuneQualityId = 1 | 2 | 3 | 4 | 5 | 11 | 12 | 13 | 14 | 15;
 export type RuneQuality = (typeof RUNE_QUALITIES)[number];
 
 export type RuneStat = {
@@ -33,14 +34,14 @@ export type Rune = {
 };
 
 export type SWRune = {
-  class: number;
-  rank: RuneGrade;
+  class: RuneGrade;
+  extra: RuneQualityId;
   set_id: RuneSetId;
   slot_no: RuneSlot;
   upgrade_curr: number;
-  pri_eff: [number, number];
-  prefix_eff: [number, number];
-  sec_eff: [number, number, number, number][];
+  pri_eff: [RuneEffectId, number];
+  prefix_eff: [RuneEffectId | 0, number];
+  sec_eff: [RuneEffectId, number][];
   occupied_id: number;
 };
 
@@ -149,4 +150,23 @@ export function upgrade(rune: Rune): Rune {
     }
   }
   return rune;
+}
+
+export function runeFromSW(rune: SWRune): Rune {
+  return {
+    isAncient: rune.extra >= 10,
+    isEquipped: !!rune.occupied_id,
+    slot: rune.slot_no,
+    grade: rune.class,
+    quality: RUNE_QUALITIES[(rune.extra % 10) - 1],
+    set: RUNE_SET_BY_ID[rune.set_id],
+    level: rune.upgrade_curr,
+    mainStat: statFromSW(rune.pri_eff),
+    innateStat: rune.prefix_eff[0] !== 0 ? statFromSW(rune.prefix_eff as [RuneEffectId, number]) : null,
+    subStats: rune.sec_eff.map(statFromSW),
+  };
+}
+
+export function statFromSW([effectId, value]: [RuneEffectId, number]): RuneStat {
+  return { effect: RUNE_EFFECT_BY_ID[effectId], value };
 }
