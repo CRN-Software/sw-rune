@@ -1,4 +1,4 @@
-import { generate, Rune, upgrade } from '@/rune';
+import { generate, Rune, upgrade } from '@/index';
 
 describe('Rune', () => {
   describe('generate', () => {
@@ -10,14 +10,14 @@ describe('Rune', () => {
         grade: 6,
         slot: 3,
         quality: 'HERO',
-        set: 'FOCUS',
+        set: 'GUARD',
         level: 0,
-        mainStat: { type: 'DEFENSE_FLAT', value: 22 },
-        innateStat: { type: 'HEALTH_FLAT', value: 216 },
+        mainStat: { effect: 'DEFENSE_FLAT', value: 22 },
+        innateStat: { effect: 'DEFENSE_PERCENTAGE', value: 6 },
         subStats: [
-          { type: 'CRITICAL_RATE', value: 5 },
-          { type: 'CRITICAL_DAMAGE', value: 5 },
-          { type: 'HEALTH_PERCENTAGE', value: 6 },
+          { effect: 'SPEED', value: 5 },
+          { effect: 'CRITICAL_RATE', value: 5 },
+          { effect: 'HEALTH_PERCENTAGE', value: 6 },
         ],
       };
 
@@ -31,22 +31,22 @@ describe('Rune', () => {
       const expected: Rune = {
         isAncient: false,
         slot: 3,
-        set: 'FOCUS',
+        set: 'GUARD',
         grade: 6,
         quality: 'HERO',
         level: 0,
-        mainStat: { type: 'DEFENSE_FLAT', value: 22 },
+        mainStat: { effect: 'DEFENSE_FLAT', value: 22 },
         innateStat: null,
         subStats: [
-          { type: 'HEALTH_FLAT', value: 216 },
-          { type: 'CRITICAL_RATE', value: 5 },
-          { type: 'CRITICAL_DAMAGE', value: 5 },
+          { effect: 'DEFENSE_PERCENTAGE', value: 6 },
+          { effect: 'SPEED', value: 5 },
+          { effect: 'CRITICAL_RATE', value: 5 },
         ],
       };
 
       expect(
         generate({
-          innateStat: false,
+          innateEffect: false,
         }),
       ).toEqual(expected);
       expect(mock).toHaveBeenCalledTimes(12);
@@ -58,23 +58,23 @@ describe('Rune', () => {
       const expected: Rune = {
         isAncient: false,
         slot: 6,
-        set: 'TOLERANCE',
+        set: 'INTANGIBLE',
         grade: 6,
         quality: 'LEGEND',
         level: 0,
-        mainStat: { type: 'RESISTANCE', value: 12 },
-        innateStat: { type: 'CRITICAL_RATE', value: 6 },
+        mainStat: { effect: 'RESISTANCE', value: 12 },
+        innateStat: { effect: 'CRITICAL_RATE', value: 6 },
         subStats: [
-          { type: 'ACCURACY', value: 8 },
-          { type: 'SPEED', value: 6 },
-          { type: 'CRITICAL_DAMAGE', value: 7 },
-          { type: 'HEALTH_FLAT', value: 375 },
+          { effect: 'ACCURACY', value: 8 },
+          { effect: 'CRITICAL_DAMAGE', value: 7 },
+          { effect: 'SPEED', value: 6 },
+          { effect: 'DEFENSE_PERCENTAGE', value: 8 },
         ],
       };
 
       expect(
         generate({
-          innateStat: 'CRITICAL_RATE',
+          innateEffect: 'CRITICAL_RATE',
         }),
       ).toEqual(expected);
       expect(mock).toHaveBeenCalledTimes(15);
@@ -84,7 +84,7 @@ describe('Rune', () => {
       expect(() =>
         generate({
           slot: 1,
-          mainStatType: 'ATTACK_PERCENTAGE',
+          mainEffect: 'ATTACK_PERCENTAGE',
         }),
       ).toThrowError();
     });
@@ -93,8 +93,8 @@ describe('Rune', () => {
       expect(() =>
         generate({
           slot: 1,
-          mainStatType: 'ATTACK_FLAT',
-          innateStat: 'ATTACK_FLAT',
+          mainEffect: 'ATTACK_FLAT',
+          innateEffect: 'ATTACK_FLAT',
         }),
       ).toThrowError();
     });
@@ -103,7 +103,7 @@ describe('Rune', () => {
       expect(() =>
         generate({
           slot: 3,
-          innateStat: 'ATTACK_FLAT',
+          innateEffect: 'ATTACK_FLAT',
         }),
       ).toThrowError();
     });

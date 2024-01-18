@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { RuneSet } from '@/rune';
+import { RuneSet } from '@/index';
 import { RUNE_SETS } from '@/constants';
 
 export const WEIGHTS_BY_SET: Record<RuneSet, number> = {
@@ -25,6 +25,9 @@ export const WEIGHTS_BY_SET: Record<RuneSet, number> = {
   ENHANCE: 3,
   ACCURACY: 3,
   TOLERANCE: 3,
+  INTANGIBLE: 6,
+  SEAL: 4,
+  IMMEMORIAL: 0,
 };
 const sum = _.sum(_.values(WEIGHTS_BY_SET));
 export const PROBABILITY_BY_SET: Record<RuneSet, number> = _.mapValues(WEIGHTS_BY_SET, (weight: number) => weight / sum);

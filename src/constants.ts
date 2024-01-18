@@ -1,4 +1,4 @@
-import { RuneStatType } from '@/rune';
+import { RuneEffect, RuneEffectId, RuneSet, RuneSetId } from '@/index';
 
 export const RUNE_QUALITIES = ['COMMON', 'MAGIC', 'RARE', 'HERO', 'LEGEND'] as const;
 
@@ -24,28 +24,62 @@ export const RUNE_SETS = [
   'ENHANCE',
   'ACCURACY',
   'TOLERANCE',
+  'SEAL',
+  'INTANGIBLE',
+  'IMMEMORIAL',
 ] as const;
 
-export const RUNE_STAT_TYPES = [
-  'ATTACK_PERCENTAGE',
-  'ATTACK_FLAT',
-  'DEFENSE_PERCENTAGE',
-  'DEFENSE_FLAT',
-  'HEALTH_PERCENTAGE',
+export const RUNE_SET_BY_ID: Record<RuneSetId, RuneSet> = {
+  1: 'ENERGY',
+  2: 'GUARD',
+  3: 'SWIFT',
+  4: 'BLADE',
+  5: 'RAGE',
+  6: 'FOCUS',
+  7: 'ENDURE',
+  8: 'FATAL',
+  10: 'DESPAIR',
+  11: 'VAMPIRE',
+  13: 'VIOLENT',
+  14: 'NEMESIS',
+  15: 'WILL',
+  16: 'SHIELD',
+  17: 'REVENGE',
+  18: 'DESTROY',
+  19: 'FIGHT',
+  20: 'DETERMINATION',
+  21: 'ENHANCE',
+  22: 'ACCURACY',
+  23: 'TOLERANCE',
+  24: 'SEAL',
+  25: 'INTANGIBLE',
+  99: 'IMMEMORIAL',
+};
+
+export const RUNE_EFFECTS = [
   'HEALTH_FLAT',
+  'HEALTH_PERCENTAGE',
+  'ATTACK_FLAT',
+  'ATTACK_PERCENTAGE',
+  'DEFENSE_FLAT',
+  'DEFENSE_PERCENTAGE',
+  'SPEED',
   'CRITICAL_RATE',
   'CRITICAL_DAMAGE',
-  'SPEED',
   'RESISTANCE',
   'ACCURACY',
 ] as const;
 
-export const PERCENTAGE_RUNE_STAT_TYPES: RuneStatType[] = [
-  'ATTACK_PERCENTAGE',
-  'DEFENSE_PERCENTAGE',
-  'HEALTH_PERCENTAGE',
-  'CRITICAL_RATE',
-  'CRITICAL_DAMAGE',
-  'RESISTANCE',
-  'ACCURACY',
-];
+export const RUNE_EFFECT_BY_ID: Record<RuneEffectId, RuneEffect> = {
+  1: 'HEALTH_FLAT',
+  2: 'HEALTH_PERCENTAGE',
+  3: 'ATTACK_FLAT',
+  4: 'ATTACK_PERCENTAGE',
+  5: 'DEFENSE_FLAT',
+  6: 'DEFENSE_PERCENTAGE',
+  8: 'SPEED',
+  9: 'CRITICAL_RATE',
+  10: 'CRITICAL_DAMAGE',
+  11: 'RESISTANCE',
+  12: 'ACCURACY',
+};

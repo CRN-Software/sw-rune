@@ -1,7 +1,7 @@
-import { RuneGrade, RuneStatType } from '@/rune';
+import { RuneEffect, RuneGrade } from '@/index';
 import { MainValueRule, MinMaxRange } from '@/types';
 
-export const MAIN_STAT_BY_SLOT: Record<number, RuneStatType[]> = {
+export const MAIN_EFFECT_BY_SLOT: Record<number, RuneEffect[]> = {
   1: ['ATTACK_FLAT'],
   2: ['ATTACK_FLAT', 'DEFENSE_FLAT', 'HEALTH_FLAT', 'ATTACK_PERCENTAGE', 'DEFENSE_PERCENTAGE', 'HEALTH_PERCENTAGE', 'SPEED'],
   3: ['DEFENSE_FLAT'],
@@ -10,7 +10,7 @@ export const MAIN_STAT_BY_SLOT: Record<number, RuneStatType[]> = {
   6: ['ATTACK_FLAT', 'DEFENSE_FLAT', 'HEALTH_FLAT', 'ATTACK_PERCENTAGE', 'DEFENSE_PERCENTAGE', 'HEALTH_PERCENTAGE', 'ACCURACY', 'RESISTANCE'],
 };
 
-export const EXCLUDED_SUBSTATS_BY_SLOT: Record<number, RuneStatType[]> = {
+export const EXCLUDED_EFFECTS_BY_SLOT: Record<number, RuneEffect[]> = {
   1: ['DEFENSE_FLAT', 'DEFENSE_PERCENTAGE'],
   2: [],
   3: ['ATTACK_FLAT', 'ATTACK_PERCENTAGE'],
@@ -19,7 +19,7 @@ export const EXCLUDED_SUBSTATS_BY_SLOT: Record<number, RuneStatType[]> = {
   6: [],
 };
 
-export const RANGE_BY_GRADE_AND_STAT_TYPE: Record<RuneGrade, Record<RuneStatType, MinMaxRange>> = {
+export const RANGE_BY_GRADE_AND_EFFECT: Record<RuneGrade, Record<RuneEffect, MinMaxRange>> = {
   1: {
     ACCURACY: { min: 1, max: 2 },
     ATTACK_FLAT: { min: 1, max: 4 },
@@ -100,7 +100,7 @@ export const RANGE_BY_GRADE_AND_STAT_TYPE: Record<RuneGrade, Record<RuneStatType
   },
 };
 
-export const VALUE_BY_GRADE_AND_STAT_TYPE: Record<RuneGrade, Record<RuneStatType, MainValueRule>> = {
+export const VALUE_BY_GRADE_AND_STAT_TYPE: Record<RuneGrade, Record<RuneEffect, MainValueRule>> = {
   1: {
     ATTACK_FLAT: { base: 3, inc: 3, final: 54 },
     ATTACK_PERCENTAGE: { base: 1, inc: 1, final: 18 },

@@ -1,10 +1,10 @@
-import { randomGrade, randomHasInnateStat, randomIsAncient, randomMainStatType, randomPropValue, randomQuality, randomSet, randomSlot, randomSubStatType } from '@/random';
+import { randomGrade, randomHasInnateStat, randomIsAncient, randomMainEffect, randomEffectValue, randomQuality, randomSet, randomSlot, randomSubEffect } from '@/random';
 
 import * as RandomModule from '@plokkke/toolbox/random';
 import { GRADE_DENSITY, QUALITY_DENSITY, SET_DENSITY } from '@/probalilities';
-import { MAIN_STAT_BY_SLOT } from '@/constraints';
-import { RuneStatType } from '@/rune';
-import { RUNE_STAT_TYPES } from '@/constants';
+import { MAIN_EFFECT_BY_SLOT } from '@/constraints';
+import { RUNE_EFFECTS } from '@/constants';
+import { RuneEffect } from '@/index';
 
 describe('Random utils', () => {
   describe('randomIsAncient', () => {
@@ -91,49 +91,49 @@ describe('Random utils', () => {
     });
   });
 
-  describe('randomMainStatType', () => {
+  describe('randomMainEffect', () => {
     it('should return a random main stat type', () => {
       const slot = 2;
-      const statType: RuneStatType = 'ATTACK_PERCENTAGE';
-      const randMock = jest.spyOn(RandomModule, 'randomItem').mockImplementation(() => statType);
+      const effect: RuneEffect = 'ATTACK_PERCENTAGE';
+      const randMock = jest.spyOn(RandomModule, 'randomItem').mockImplementation(() => effect);
 
-      const actual = randomMainStatType(slot);
-      expect(actual).toBe(statType);
+      const actual = randomMainEffect(slot);
+      expect(actual).toBe(effect);
 
-      expect(randMock).toHaveBeenCalledWith(MAIN_STAT_BY_SLOT[slot]);
+      expect(randMock).toHaveBeenCalledWith(MAIN_EFFECT_BY_SLOT[slot]);
     });
   });
 
-  describe('randomSubStatType', () => {
+  describe('randomSubEffect', () => {
     it('should return a random sub stat type', () => {
-      const statType: RuneStatType = 'ATTACK_PERCENTAGE';
-      const randMock = jest.spyOn(RandomModule, 'randomItem').mockImplementation(() => statType);
+      const effect: RuneEffect = 'ATTACK_PERCENTAGE';
+      const randMock = jest.spyOn(RandomModule, 'randomItem').mockImplementation(() => effect);
 
-      const actual = randomSubStatType();
-      expect(actual).toBe(statType);
+      const actual = randomSubEffect();
+      expect(actual).toBe(effect);
 
-      expect(randMock).toHaveBeenCalledWith(RUNE_STAT_TYPES);
+      expect(randMock).toHaveBeenCalledWith(RUNE_EFFECTS);
     });
 
     it('should return a random sub stat type excluding the given types', () => {
-      const statType: RuneStatType = 'ATTACK_PERCENTAGE';
-      const randMock = jest.spyOn(RandomModule, 'randomItem').mockImplementation(() => statType);
+      const effect: RuneEffect = 'ATTACK_PERCENTAGE';
+      const randMock = jest.spyOn(RandomModule, 'randomItem').mockImplementation(() => effect);
 
-      const actual = randomSubStatType('ATTACK_FLAT', 'DEFENSE_FLAT', ['SPEED'], ['CRITICAL_RATE']);
-      expect(actual).toBe(statType);
+      const actual = randomSubEffect('ATTACK_FLAT', 'DEFENSE_FLAT', ['SPEED'], ['CRITICAL_RATE']);
+      expect(actual).toBe(effect);
 
-      expect(randMock).toHaveBeenCalledWith(['ATTACK_PERCENTAGE', 'DEFENSE_PERCENTAGE', 'HEALTH_PERCENTAGE', 'HEALTH_FLAT', 'CRITICAL_DAMAGE', 'RESISTANCE', 'ACCURACY']);
+      expect(randMock).toHaveBeenCalledWith(['HEALTH_FLAT', 'HEALTH_PERCENTAGE', 'ATTACK_PERCENTAGE', 'DEFENSE_PERCENTAGE', 'CRITICAL_DAMAGE', 'RESISTANCE', 'ACCURACY']);
     });
   });
 
   describe('randomPropValue', () => {
     it('should return a random prop value', () => {
       const grade = 2;
-      const type: RuneStatType = 'ATTACK_PERCENTAGE';
+      const effect: RuneEffect = 'ATTACK_PERCENTAGE';
       const value = 10;
       const randMock = jest.spyOn(RandomModule, 'randomInt').mockImplementation(() => value);
 
-      const actual = randomPropValue(grade, type);
+      const actual = randomEffectValue(grade, effect);
       expect(actual).toBe(value);
 
       expect(randMock).toHaveBeenCalledWith(1, 3);

@@ -1,8 +1,8 @@
-import { RuneGrade, RuneQuality, RuneSet, RuneSlot, RuneStatType } from './rune';
-import { RUNE_QUALITIES, RUNE_SETS, RUNE_STAT_TYPES } from './constants';
+import { RuneGrade, RuneQuality, RuneSet, RuneSlot, RuneEffect } from './index';
+import { RUNE_QUALITIES, RUNE_SETS, RUNE_EFFECTS } from './constants';
 import { randomIdxByDensity, randomInt, randomItem } from '@plokkke/toolbox/random';
 import { ANCIENT_PROBABILITY, GRADE_DENSITY, INNATE_STAT_PROBABILITY, QUALITY_DENSITY, SET_DENSITY } from '@/probalilities';
-import { MAIN_STAT_BY_SLOT, RANGE_BY_GRADE_AND_STAT_TYPE } from '@/constraints';
+import { MAIN_EFFECT_BY_SLOT, RANGE_BY_GRADE_AND_EFFECT } from '@/constraints';
 
 export function randomIsAncient(): boolean {
   return Math.random() < ANCIENT_PROBABILITY;
@@ -28,18 +28,18 @@ export function randomQuality(): RuneQuality {
   return RUNE_QUALITIES[randomIdxByDensity(QUALITY_DENSITY)];
 }
 
-export function randomMainStatType(slot: number): RuneStatType {
-  return randomItem(MAIN_STAT_BY_SLOT[slot]);
+export function randomMainEffect(slot: number): RuneEffect {
+  return randomItem(MAIN_EFFECT_BY_SLOT[slot]);
 }
 
-export function randomSubStatType(...exclude: (RuneStatType | RuneStatType[])[]): RuneStatType {
-  const excluded = exclude.flat();
-  const types = RUNE_STAT_TYPES.filter((type) => !excluded.includes(type));
+export function randomSubEffect(...exclude: (RuneEffect | RuneEffect[])[]): RuneEffect {
+  const excluded: RuneEffect[] = exclude.flat();
+  const effects: RuneEffect[] = RUNE_EFFECTS.filter((effect: RuneEffect) => !excluded.includes(effect));
 
-  return randomItem(types);
+  return randomItem(effects);
 }
 
-export function randomPropValue(grade: RuneGrade, type: RuneStatType): number {
-  const { min, max } = RANGE_BY_GRADE_AND_STAT_TYPE[grade][type];
+export function randomEffectValue(grade: RuneGrade, effect: RuneEffect): number {
+  const { min, max } = RANGE_BY_GRADE_AND_EFFECT[grade][effect];
   return randomInt(min, max);
 }
