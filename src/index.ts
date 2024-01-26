@@ -55,7 +55,7 @@ function initMainEffect(slot: RuneSlot, grade: RuneGrade, initialEffect?: RuneEf
   return { effect: type, value };
 }
 
-function initInnateStat(slot: RuneSlot, grade: RuneGrade, mainEffect: RuneEffect, param?: boolean | RuneEffect): RuneStat | null {
+function initInnateStat(isAncient: boolean, slot: RuneSlot, grade: RuneGrade, mainEffect: RuneEffect, param?: boolean | RuneEffect): RuneStat | null {
   const excluded = [mainEffect, ...EXCLUDED_EFFECTS_BY_SLOT[slot]];
   if (typeof param === 'string' && excluded.includes(param)) {
     throw new Error(`Innate stat ${param} is not available for slot ${slot}`);
@@ -67,12 +67,12 @@ function initInnateStat(slot: RuneSlot, grade: RuneGrade, mainEffect: RuneEffect
   }
 
   const type = typeof param === 'string' ? param : randomSubEffect(excluded);
-  const value = randomEffectValue(grade, type);
+  const value = randomEffectValue(grade, type, isAncient);
 
   return { effect: type, value };
 }
 
-function initSubStats(slot: RuneSlot, grade: RuneGrade, quality: RuneQuality, mainEffect: RuneEffect, innateEffect: RuneEffect | null): RuneStat[] {
+function initSubStats(isAncient: boolean, slot: RuneSlot, grade: RuneGrade, quality: RuneQuality, mainEffect: RuneEffect, innateEffect: RuneEffect | null): RuneStat[] {
   const subStatCount = RUNE_QUALITIES.indexOf(quality);
   const excluded = [...EXCLUDED_EFFECTS_BY_SLOT[slot], mainEffect, ...(innateEffect ? [innateEffect] : [])];
 
@@ -80,7 +80,7 @@ function initSubStats(slot: RuneSlot, grade: RuneGrade, quality: RuneQuality, ma
     const type = randomSubEffect(excluded);
     excluded.push(type);
 
-    return { effect: type, value: randomEffectValue(grade, type) };
+    return { effect: type, value: randomEffectValue(grade, type, isAncient) };
   });
 }
 
@@ -102,8 +102,8 @@ export function generate(options?: RuneGenerationParams): Rune {
   const quality = options?.quality || randomQuality();
 
   const mainStat = initMainEffect(slot, grade, options?.mainEffect);
-  const innateStat = initInnateStat(slot, grade, mainStat.effect, options?.innateEffect);
-  const subStats: RuneStat[] = initSubStats(slot, grade, quality, mainStat.effect, innateStat?.effect ?? null);
+  const innateStat = initInnateStat(isAncient, slot, grade, mainStat.effect, options?.innateEffect);
+  const subStats: RuneStat[] = initSubStats(isAncient, slot, grade, quality, mainStat.effect, innateStat?.effect ?? null);
 
   return {
     isAncient,

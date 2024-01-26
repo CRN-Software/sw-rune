@@ -1,7 +1,7 @@
 {
   "name": "@plokkke/sw-rune",
   "private": false,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Library defining all utils for summoners war rune handling",
   "author": "Antoine Caron <antoine@crn-tech.fr>",
   "license": "ISC",
@@ -19,7 +19,7 @@
     "build": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "produce": "npm run lint && npm run format &&npm run build && npm run test:cov",
+    "produce": "npm run lint && npm run format && npm run build && npm run test:cov",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage"

@@ -100,6 +100,22 @@ export const RANGE_BY_GRADE_AND_EFFECT: Record<RuneGrade, Record<RuneEffect, Min
   },
 };
 
+export const ANCIENT_RANGE_BY_GRADE_AND_EFFECT: Record<6, Record<RuneEffect, MinMaxRange>> = {
+  6: {
+    ATTACK_FLAT: { min: 12, max: 24 },
+    ATTACK_PERCENTAGE: { min: 6, max: 10 },
+    DEFENSE_FLAT: { min: 12, max: 24 },
+    DEFENSE_PERCENTAGE: { min: 6, max: 10 },
+    HEALTH_FLAT: { min: 165, max: 435 },
+    HEALTH_PERCENTAGE: { min: 6, max: 10 },
+    SPEED: { min: 5, max: 7 },
+    CRITICAL_RATE: { min: 5, max: 7 },
+    CRITICAL_DAMAGE: { min: 5, max: 9 },
+    ACCURACY: { min: 6, max: 10 },
+    RESISTANCE: { min: 6, max: 10 },
+  },
+};
+
 export const VALUE_BY_GRADE_AND_STAT_TYPE: Record<RuneGrade, Record<RuneEffect, MainValueRule>> = {
   1: {
     ATTACK_FLAT: { base: 3, inc: 3, final: 54 },

@@ -127,16 +127,40 @@ describe('Random utils', () => {
   });
 
   describe('randomPropValue', () => {
-    it('should return a random prop value', () => {
-      const grade = 2;
-      const effect: RuneEffect = 'ATTACK_PERCENTAGE';
+    it('should return a normal proc', () => {
+      const grade = 6;
+      const effect: RuneEffect = 'CRITICAL_DAMAGE';
       const value = 10;
       const randMock = jest.spyOn(RandomModule, 'randomInt').mockImplementation(() => value);
 
       const actual = randomEffectValue(grade, effect);
       expect(actual).toBe(value);
 
+      expect(randMock).toHaveBeenCalledWith(4, 7);
+    });
+
+    it('should return a normal proc even in ancient bellow grade 6', () => {
+      const grade = 2;
+      const effect: RuneEffect = 'CRITICAL_DAMAGE';
+      const value = 10;
+      const randMock = jest.spyOn(RandomModule, 'randomInt').mockImplementation(() => value);
+
+      const actual = randomEffectValue(grade, effect, true);
+      expect(actual).toBe(value);
+
       expect(randMock).toHaveBeenCalledWith(1, 3);
+    });
+
+    it('should return a random ancient value', () => {
+      const grade = 6;
+      const effect: RuneEffect = 'CRITICAL_DAMAGE';
+      const value = 10;
+      const randMock = jest.spyOn(RandomModule, 'randomInt').mockImplementation(() => value);
+
+      const actual = randomEffectValue(grade, effect, true);
+      expect(actual).toBe(value);
+
+      expect(randMock).toHaveBeenCalledWith(5, 9);
     });
   });
 });
