@@ -1,0 +1,75 @@
+name: Main merge
+
+on:
+  pull_request:
+    types: [ closed ]
+    branches: [ main ]
+
+jobs:
+  versioning:
+    runs-on: [self-hosted, Linux, standard]
+    if: github.event.pull_request.merged == true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secret.GITHUB_CI_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: |
+          npm install -g \
+            semantic-release \
+            @semantic-release/commit-analyzer \
+            @semantic-release/exec
+
+      - name: Git configure
+        run: |
+          git config --global user.email "git-bot@crn-tech.fr"
+          git config --global user.name "Git Bot"
+
+      - name: Semantic Release Config
+        run: |
+          echo '
+            {
+              "branches": "main",
+              "dryRun": true,
+              "ci": false,
+              "plugins": [
+                "@semantic-release/commit-analyzer",
+                [
+                  "@semantic-release/exec",
+                  { "verifyReleaseCmd": "echo \"version=${nextRelease.version}\" >> $GITHUB_OUTPUT" }
+                ],
+              ]
+            }
+          '> .releaserc
+
+      - id: semantic
+        name: Semantic Release
+        run: npx semantic-release
+
+      - name: Publish tag
+        if: steps.semantic.outputs.version != ''
+        run: |
+          npm version ${{ steps.semantic.outputs.version }} --no-git-tag-version
+          git add package.json package-lock.json
+          git commit --amend --no-edit
+          git tag v${{ steps.semantic.outputs.version }}
+          git push --tags
+          git push --force origin main
+
+      - name: Update tag
+        if: steps.semantic.outputs.version == ''
+        run: |
+          TAG=$(git describe --tags --abbrev=0)
+          git tag -d "$TAG"
+          git push origin --delete "$TAG"
+          git tag "$TAG"
+          git push origin "$TAG"
