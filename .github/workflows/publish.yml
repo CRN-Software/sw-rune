@@ -7,7 +7,7 @@ on:
 
 jobs:
   variables:
-    runs-on: [ Linux, standard ]
+    runs-on: ubuntu-latest
     outputs:
       node-version: ${{ steps.outputs.outputs.node-version }}
       container-registry: ${{ steps.outputs.outputs.container-registry }}

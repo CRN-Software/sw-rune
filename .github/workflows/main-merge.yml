@@ -7,7 +7,7 @@ on:
 
 jobs:
   versioning:
-    runs-on: [ Linux, standard ]
+    runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
     steps:
       - name: Checkout code
