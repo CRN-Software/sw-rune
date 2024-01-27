@@ -1,7 +1,7 @@
 {
   "name": "@plokkke/sw-rune",
   "private": false,
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Library defining all utils for summoners war rune handling",
   "author": "Antoine Caron <antoine@crn-tech.fr>",
   "license": "ISC",
