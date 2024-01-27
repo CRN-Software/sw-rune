@@ -2,11 +2,11 @@ name: Validate
 
 on:
   pull_request:
-    types: [opened, edited, reopened, synchronize]
+    types: [ opened, edited, reopened, synchronize ]
 
 jobs:
   validate:
-    runs-on: [self-hosted, Linux, standard]
+    runs-on: [ Linux, standard ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
